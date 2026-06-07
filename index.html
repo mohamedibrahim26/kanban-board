@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FlowBoard — Kanban</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-wrap" id="toastWrap"></div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Add Task</div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Task Title *</label>
+          <input type="text" class="form-input" id="fTitle" placeholder="e.g. Design the landing page hero section" maxlength="80"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-textarea" id="fDesc" placeholder="Add more details about this task…"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Priority</label>
+            <select class="form-select" id="fPriority">
+              <option value="low">🟢 Low</option>
+              <option value="medium" selected>🟡 Medium</option>
+              <option value="high">🟠 High</option>
+              <option value="urgent">🔴 Urgent</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Due Date</label>
+            <input type="date" class="form-input" id="fDue"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Column</label>
+            <select class="form-select" id="fColumn">
+              <option value="todo">To Do</option>
+              <option value="prog">In Progress</option>
+              <option value="review">In Review</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Assignee</label>
+            <select class="form-select" id="fAssignee">
+              <option value="">None</option>
+              <option value="IB">Ibrahim</option>
+              <option value="SM">Sarah</option>
+              <option value="AK">Alex</option>
+              <option value="JD">Jordan</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Labels</label>
+          <div class="label-picker" id="labelPicker">
+            <div class="label-opt" style="background:rgba(108,99,255,0.12);color:#6c63ff" data-label="Design" onclick="toggleLabel(this)">Design</div>
+            <div class="label-opt" style="background:rgba(255,107,53,0.12);color:#ff6b35" data-label="Frontend" onclick="toggleLabel(this)">Frontend</div>
+            <div class="label-opt" style="background:rgba(0,180,216,0.12);color:#00b4d8" data-label="Backend" onclick="toggleLabel(this)">Backend</div>
+            <div class="label-opt" style="background:rgba(26,147,111,0.12);color:#1a936f" data-label="Bug" onclick="toggleLabel(this)">Bug</div>
+            <div class="label-opt" style="background:rgba(236,72,153,0.12);color:#ec4899" data-label="Feature" onclick="toggleLabel(this)">Feature</div>
+            <div class="label-opt" style="background:rgba(255,183,3,0.15);color:#c68a00" data-label="Docs" onclick="toggleLabel(this)">Docs</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-save" onclick="saveTask()">Save Task</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-left">
+      <div class="nav-logo-icon">F</div>
+      <div class="nav-logo-text">FlowBoard</div>
+      <div class="nav-divider"></div>
+      <input class="board-name-input" id="boardName" value="Product Design Sprint" onblur="saveBoardName()" onkeydown="if(event.key==='Enter')this.blur()"/>
+    </div>
+    <div class="nav-right">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" id="searchInput" placeholder="Search tasks…" oninput="handleSearch()"/>
+      </div>
+      <div class="avatar-group" id="avatarGroup">
+        <div class="avatar-sm" style="background:linear-gradient(135deg,#6c63ff,#a855f7);margin-left:0">IB</div>
+        <div class="avatar-sm" style="background:linear-gradient(135deg,#ff6b35,#ffb703)">SM</div>
+        <div class="avatar-sm" style="background:linear-gradient(135deg,#00b4d8,#1a936f)">AK</div>
+      </div>
+      <button class="nav-btn btn-primary-nav" onclick="openModal()">+ Add Task</button>
+    </div>
+  </nav>
+
+  <!-- BOARD HEADER -->
+  <div class="board-header">
+    <div class="board-header-top">
+      <div>
+        <div class="board-meta">
+          <span class="board-tag">Sprint 4</span>
+          <span style="color:var(--text3);font-size:0.8rem">Jun 1 – Jun 14, 2026</span>
+        </div>
+        <h1 class="board-title" id="boardTitle">Product Design Sprint</h1>
+      </div>
+      <div class="board-actions">
+        <div class="filter-row" id="filterRow">
+          <div class="filter-chip active" onclick="filterByPriority('all',this)">All</div>
+          <div class="filter-chip" onclick="filterByPriority('urgent',this)">🔴 Urgent</div>
+          <div class="filter-chip" onclick="filterByPriority('high',this)">🟠 High</div>
+          <div class="filter-chip" onclick="filterByPriority('medium',this)">🟡 Medium</div>
+          <div class="filter-chip" onclick="filterByPriority('low',this)">🟢 Low</div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-row" id="statsRow"></div>
+  </div>
+
+  <!-- BOARD -->
+  <div class="board-wrap">
+    <div class="board" id="board">
+      <!-- columns injected by JS -->
+      <button class="add-col-btn" onclick="showToast('Column management coming soon!','info')">
+        <div class="add-col-icon">+</div>
+        Add Column
+      </button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
