@@ -4,7 +4,7 @@ A Kanban board I built from scratch using only HTML, CSS, and JavaScript. Inspir
 
 No libraries, no frameworks, no build tools.
 
-Live demo: https://mohamedibrahim26.github.io/flowboard-kanban
+Live demo: https://mohamedibrahim26.github.io/kanban-board/
 
 ---
 
