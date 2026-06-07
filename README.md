@@ -1,7 +1,6 @@
 # 📋 FlowBoard — Kanban Task Manager
 
-🔗 **Live Demo:** [mohamedibrahim26.github.io/flowboard-kanban](https://mohamedibrahim26.github.io/flowboard-kanban)
-
+🔗 **Live Demo:** [mohamedibrahim26.github.io/kanban-board](https://mohamedibrahim26.github.io/kanban-board)
 ---
 
 ## ✨ Features
