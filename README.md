@@ -1,7 +1,5 @@
 # 📋 FlowBoard — Kanban Task Manager
 
-A beautiful, fully interactive Kanban board inspired by Trello. Built with vanilla HTML, CSS, and JavaScript, featuring drag-and-drop, real-time filtering, and persistent storage. No frameworks, no dependencies.
-
 🔗 **Live Demo:** [mohamedibrahim26.github.io/flowboard-kanban](https://mohamedibrahim26.github.io/flowboard-kanban)
 
 ---
