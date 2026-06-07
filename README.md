@@ -1,113 +1,87 @@
-# 📋 FlowBoard — Kanban Task Manager
+# FlowBoard - Kanban Task Manager
 
-🔗 **Live Demo:** [mohamedibrahim26.github.io/kanban-board](https://mohamedibrahim26.github.io/kanban-board)
----
+A Kanban board I built from scratch using only HTML, CSS, and JavaScript. Inspired by tools like Trello. The goal was to build something actually useful, not just a demo.
 
-## ✨ Features
+No libraries, no frameworks, no build tools.
 
-### 🗂 Board & Columns
-
-- 4 workflow columns — **To Do, In Progress, In Review, Done**
-- Per-column **task count badges** and animated **progress bars**
-- Editable **board name** saved to localStorage
-- **Add Column** placeholder for extensibility
-
-### 🃏 Task Cards
-
-- Full **CRUD** — create, read, update, and delete tasks
-- **Priority badges** — Urgent 🔴 / High 🟠 / Medium 🟡 / Low 🟢
-- **Color-coded labels** — Design, Frontend, Backend, Bug, Feature, Docs
-- **Due dates** with dynamic status — overdue (red), due soon (amber), upcoming (grey)
-- **Assignee avatars** with gradient color coding
-- Smooth **slide-in card animation** on creation
-- Smooth **fade-out animation** on deletion
-
-### 🖱 Drag & Drop
-
-- Full **HTML5 drag-and-drop** between all columns
-- Visual **drag ghost** with rotation effect
-- **Drop zone highlight** on hover
-- **Confetti explosion** 🎉 when a card lands in Done
-
-### 🔍 Search & Filter
-
-- **Live search** — filters cards across all columns as you type
-- **Priority filter chips** — filter the entire board by priority level instantly
-
-### 💾 Persistence
-
-- All tasks, board name, and state saved to **`localStorage`**
-- Survives page refresh, tab close, and browser restart
-
-### ⌨️ Keyboard Shortcuts
-
-| Shortcut       | Action              |
-| -------------- | ------------------- |
-| `N`            | Open add task modal |
-| `Esc`          | Close modal         |
-| `⌘ / Ctrl + K` | Focus search        |
-| `⌘ / Ctrl + ↵` | Save task           |
+Live demo: https://mohamedibrahim26.github.io/flowboard-kanban
 
 ---
 
-## 🛠 Tech Stack
+## Why I built this
 
-| Layer     | Technology                                         |
-| --------- | -------------------------------------------------- |
-| Structure | HTML5 (semantic)                                   |
-| Styling   | CSS3 — Grid, Flexbox, Variables, Animations        |
-| Logic     | Vanilla JavaScript (ES6+)                          |
-| Fonts     | Google Fonts — Plus Jakarta Sans, Playfair Display |
-| Storage   | Web localStorage API                               |
-| Hosting   | GitHub Pages                                       |
-
-> No frameworks. No libraries. No build tools. Pure fundamentals.
+I use task boards a lot for personal projects and wanted to understand how drag and drop actually works under the hood. Building one yourself is a completely different experience from just using one. It helped me understand state management, DOM updates, and event handling much better than any tutorial did.
 
 ---
 
-## 📁 Project Structure
+## What it does
+
+**The board**
+- Four columns: To Do, In Progress, In Review, Done
+- Each column shows a task count and a progress bar
+- The board title is editable and gets saved to localStorage
+
+**Task cards**
+- You can add, edit, and delete tasks
+- Each card can have a priority level (Urgent, High, Medium, Low), a due date, an assignee, and labels like Design, Frontend, Bug etc.
+- Due dates change colour based on how close they are. Red if overdue, amber if within two days
+- Cards animate in when added and fade out when deleted
+
+**Drag and drop**
+- Cards can be dragged between any column
+- When you drop a card into Done, confetti fires across the screen
+- The column highlights as you drag over it so you know where it will land
+
+**Search and filter**
+- The search bar filters cards across all columns as you type
+- The priority chips at the top let you filter the whole board to one priority level
+
+**Persistence**
+- Everything saves to localStorage automatically
+- Tasks, board name, all of it survives a refresh
+
+**Keyboard shortcuts**
+- `N` to open the add task form
+- `Escape` to close it
+- `Ctrl + K` (or Cmd + K) to jump to search
+- `Ctrl + Enter` to save a task from the keyboard
+
+---
+
+## File structure
 
 ```
 KanbanBoard/
-├── index.html      # HTML structure, modals & board layout
-├── styles.css      # All styling, light theme, animations & responsive design
-└── script.js       # Drag-drop logic, CRUD, filters, search & localStorage
+├── index.html    - board layout, columns, modal markup
+├── styles.css    - light theme, card styles, animations
+└── script.js     - drag-drop, CRUD, filters, search, localStorage
 ```
 
 ---
 
-## 🚀 Getting Started
+## Tech used
+
+- HTML5
+- CSS3 (custom properties, keyframes, flexbox, grid)
+- Vanilla JavaScript (ES6+)
+- HTML5 Drag and Drop API
+- localStorage for data persistence
+- Google Fonts (Plus Jakarta Sans, Playfair Display)
+- Hosted on GitHub Pages
+
+---
+
+## Running it locally
 
 ```bash
-# Clone the repository
 git clone https://github.com/mohamedibrahim26/flowboard-kanban.git
-
-# Open in browser
 cd flowboard-kanban
-open index.html
 ```
 
-No npm install. No build step. Just open and run.
+Open `index.html` in your browser. That is it.
 
 ---
 
-## 🎯 Key Concepts Demonstrated
+## Things I learnt
 
-- **Drag & Drop API** — `dragstart`, `dragover`, `dragleave`, `drop` events with live visual feedback
-- **DOM Manipulation** — dynamic board rendering, card CRUD, column state updates
-- **Event Delegation** — efficient event handling across dynamically created elements
-- **CSS Architecture** — custom properties, light theme, glassmorphism modals, keyframe animations
-- **Web APIs** — `localStorage`, `IntersectionObserver`, `Date` for due-date logic
-- **UX Patterns** — toast notifications, confetti, keyboard shortcuts, empty states
-- **Data Management** — in-memory state synced to localStorage on every change
-
----
-
-## 📸 Sections
-
-1. **Navbar** — board name editor, live search, team avatars, add task button
-2. **Board Header** — sprint label, priority filter chips, live stats pills
-3. **Kanban Board** — 4 drag-and-drop columns with progress indicators
-4. **Task Modal** — full form with title, description, priority, due date, assignee, labels
-5. **Toast System** — bottom-center notification stack for all actions
-6. **Confetti** — celebration animation when tasks are completed
+Drag and drop was the hardest part. The browser fires `dragleave` when the cursor moves over a child element inside the drop zone, which breaks the highlight effect. It took me a while to figure out how to handle that correctly using `relatedTarget`. Managing state as a plain array and re-rendering the whole board on every change also taught me a lot about how frameworks like React actually earn their value.
